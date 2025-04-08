@@ -1,0 +1,13 @@
+<div>
+  <h2>List of Comics</h2>
+  <ul>
+    @for(comic of comics; track $index) {
+      <li>
+        {{comic.id}} - <b>Série: </b>{{ comic.serie }}<b> Titre: </b>{{ comic.titre }}<b> Numéro: </b>{{ comic.numeroAlbum }}<b> Editeur: </b>{{ comic.editeur }}
+      </li>
+    }
+  </ul>
+</div>
+<hr>
+<app-add-comic (comicAdded)="onComicAdded($event)"></app-add-comic>
+

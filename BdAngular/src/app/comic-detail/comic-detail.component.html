@@ -1,0 +1,21 @@
+<div>
+  <h2>Find Comic by ID</h2>
+  <form (ngSubmit)="getComic()">
+    <label for="comicId">Comic ID: </label>
+    <input type="number" [(ngModel)]="comicId" name="comicId" id="comicId" required>
+    <button type="submit">Get Comic</button>
+  </form>
+
+  @if(errorMessage){
+    <p style="color: red">{{ errorMessage }}</p>
+  }
+
+  @if(comic) {
+    <div>
+      <h3>{{ comic.titre }}</h3>
+      <p><strong>Serie: </strong> {{ comic.serie }}</p>
+      <p><strong>Numero: </strong> {{ comic.numeroAlbum }}</p>
+      <p><strong>Editeur: </strong> {{ comic.editeur }}</p>
+    </div>
+  }
+</div>

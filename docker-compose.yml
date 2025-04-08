@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  bdDb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: bdDb
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=yourStrong(!)Password
+    ports:
+      - "1433:1433"
+    volumes:
+      - M:/SQL/data:/var/opt/mssql/data
+      - M:/SQL/log:/var/opt/mssql/log
+      - M:/SQL/secrets:/var/opt/mssql/secrets
+    networks:
+      - bd-network
+    restart: always
+    
+  frontend:
+    build:
+      context: ./BdAngular  
+      dockerfile: Dockerfile
+    container_name: bdAngular
+    ports:
+      - "8080:4200"
+    networks:
+      - bd-network
+
+  backend:
+    build: 
+      context: .
+      dockerfile: BdApi/BdApi/Dockerfile 
+    container_name: bdApi
+    ports:
+      - "5000:80"
+    depends_on:
+      - bdDb
+    networks:
+      - bd-network
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=bdDb,1433;Database=bd_db;User Id=sa;Password=yourStrong(!)Password;TrustServerCertificate=true
+    restart: always
+
+networks:
+  bd-network:
+    driver: bridge
