@@ -7,7 +7,7 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("api/v1/users")]
-public class UserController : ControllerBase
+public class UserController : BaseController
 {
     private TokenService _service;
     private IConfiguration _configuration;
@@ -22,31 +22,45 @@ public class UserController : ControllerBase
     [HttpPost]
     public ActionResult<DtoOutputConnectedUser> Auth(DtoInputUser dto)
     {
-        var token = _service.BuildToken(
-            _configuration["Jwt:Key"],
-            _configuration["Jwt:Issuer"],
-            dto);
-        Response.Cookies.Append("cookie", token, new CookieOptions
+        try
         {
-            Secure = true,
-            HttpOnly = true
-        });
-        return new DtoOutputConnectedUser
+            var token = _service.BuildToken(
+                _configuration["Jwt:Key"],
+                _configuration["Jwt:Issuer"],
+                dto);
+            Response.Cookies.Append("cookie", token, new CookieOptions
+            {
+                Secure = true,
+                HttpOnly = true
+            });
+            return new DtoOutputConnectedUser
+            {
+                Token = token
+            };
+        }
+        catch (Exception ex)
         {
-            Token = token
-        };
+            return HandleError(ex);
+        }
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public ActionResult TestConnection()
     {
-        var identityName = User.Identity.Name;
-        Console.Write(identityName);
-        return Ok(new
+        try
         {
-            text = "Ok"
-        });
+            var identityName = User.Identity.Name;
+            Console.Write(identityName);
+            return Ok(new
+            {
+                text = "Ok"
+            });
+        }
+        catch (Exception ex)
+        {
+            return HandleError(ex);
+        }
     }
     
     [HttpGet]
@@ -54,6 +68,13 @@ public class UserController : ControllerBase
     [Route("IsConnected")]
     public ActionResult IsConnected()
     {
-        return Ok();
+        try
+        {
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return HandleError(ex);
+        }
     }
 }

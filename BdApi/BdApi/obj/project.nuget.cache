@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PZA+XPGQSSE=",
+  "dgSpecHash": "yKmVN9bYzy0=",
   "success": true,
-  "projectFilePath": "M:\\ecole\\2024-2025\\TI\\docker\\side-bd\\BdApi\\BdApi\\BdApi.csproj",
+  "projectFilePath": "M:\\ComicFinder\\BdApi\\BdApi\\BdApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mathis\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Mathis\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
