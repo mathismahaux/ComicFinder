@@ -18,6 +18,11 @@ public class UserController : BaseController
         _configuration = configuration;
     }
 
+    protected override IActionResult HandleError(Exception ex)
+    {
+        return StatusCode(500, new { message = ex.Message });
+    }
+
     [AllowAnonymous]
     [HttpPost]
     public ActionResult<DtoOutputConnectedUser> Auth(DtoInputUser dto)
